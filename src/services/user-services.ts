@@ -6,7 +6,11 @@ const prisma = new PrismaClient()
 
 export const listarUser =async () => {
   try {
-    return await prisma.user.findMany()
+    return await prisma.user.findMany({
+      include:{
+        posts:true
+      }
+    })
   } catch (error) {
     throw new Error("falha: "+ error);
   }
