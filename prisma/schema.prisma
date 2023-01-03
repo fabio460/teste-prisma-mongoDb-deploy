@@ -31,3 +31,29 @@ type Address {
   state  String
   zip    String
 }
+
+model Users {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  password String
+  accountId String @db.ObjectId @unique
+  accounts Accounts @relation("UserToAccount",fields: [accountId],references: [id],onDelete: Cascade)
+}
+
+model Accounts {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  balance Float 
+  users Users? @relation("UserToAccount")
+  debitedAccountId Transactions[] @relation("debitedAccountId")
+  creditedAccountId Transactions[] @relation("creditedAccountId")
+}
+
+model Transactions {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  value Float 
+  createAt DateTime @updatedAt
+  debitedAccountId String @db.ObjectId
+  creditedAccountId String @db.ObjectId
+  debitedAccount Accounts @relation("debitedAccountId",fields: [debitedAccountId],references: [id],onDelete: Cascade, onUpdate: Cascade)
+  creditedAccount Accounts @relation("creditedAccountId",fields: [creditedAccountId],references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
