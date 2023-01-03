@@ -7,9 +7,9 @@ const prisma = new PrismaClient()
 export const listarPost =async () => {
   try {
     return await prisma.post.findMany({
-      include:{
+       include:{
         author:true
-      }
+       }
     })
   } catch (error) {
     throw new Error("falha: "+ error);
@@ -33,7 +33,11 @@ export const listarPostPorId =async (id:string) => {
           body:post.body,
           slug:post.slug,
           title:post.title,
-          authorId:post.authorId
+          author:{
+            connect:{
+              id:post.authorId
+            }
+          }
         }
       })
     } catch (error) {

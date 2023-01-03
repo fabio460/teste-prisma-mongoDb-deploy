@@ -16,7 +16,7 @@ export const listarPorId =async (req:Request,res:Response,next:NextFunction) => 
     try {
         
     } catch (error) {
-        throw new Error("falha: "+error);
+        next(error)
         
     }
 }
@@ -31,20 +31,20 @@ export const criar =async (req:Request,res:Response,next:NextFunction) => {
 }
 export const deletar =async (req:Request,res:Response,next:NextFunction) => {
     try {
-        const id:string = req.params.toString()
+        const id:string = req.params.id
         res.json(await deletarPost(id))
     } catch (error) {
-        throw new Error("falha: "+error);
+        next(error)
         
     }
 }
 export const atualizar =async (req:Request,res:Response,next:NextFunction) => {
     try {
-        const id:string = req.params.toString() 
+        const id:string = req.params.id
         const user:typePost = req.body
         res.json(await atualizarPost(id,user))      
     } catch (error) {
-        throw new Error("falha: "+error);
+        next(error)
         
     }
 }
