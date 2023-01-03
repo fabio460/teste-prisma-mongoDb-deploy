@@ -1,7 +1,6 @@
-import { typePost, typeUser } from "../../types";
-import { listarPost } from "../services/post-service";
+import { typeUser } from "../../types";
 import { NextFunction, Request,Response } from "express";
-import { criarUser, listarUser } from "../services/user-services";
+import { criarUser, deletarUser, listarUser, listarUserPorId } from "../services/user-services";
 
 
 export const listar =async (req:Request,res:Response,next:NextFunction) => {
@@ -14,10 +13,11 @@ export const listar =async (req:Request,res:Response,next:NextFunction) => {
 
 export const listarPorId =async (req:Request,res:Response,next:NextFunction) => {
     try {
-        
+        const id = req.params.id
+        console.log(id)
+        res.json(await listarUserPorId(id))
     } catch (error) {
-        throw new Error("falha: "+error);
-        
+        next(error)
     }
 }
 export const criar =async (req:Request,res:Response,next:NextFunction) => {
@@ -32,15 +32,16 @@ export const criar =async (req:Request,res:Response,next:NextFunction) => {
 }
 export const deletar =async (req:Request,res:Response,next:NextFunction) => {
     try {
-        
+        const id = req.params.id
+        console.log(id)
+        res.json(await deletarUser(id))
     } catch (error) {
-        throw new Error("falha: "+error);
-        
+        next(error)
     }
 }
 export const atualizar =async (req:Request,res:Response,next:NextFunction) => {
     try {
-        
+        const id = req.params._id
     } catch (error) {
         throw new Error("falha: "+error);
         
