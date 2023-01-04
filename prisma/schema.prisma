@@ -36,16 +36,18 @@ model Users {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   username String @unique
   password String
-  accountId String @db.ObjectId @unique
-  accounts Accounts @relation("UserToAccount",fields: [accountId],references: [id],onDelete: Cascade)
+  accounts Accounts[] @relation("UserToAccount")
+
 }
 
 model Accounts {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   balance Float 
-  users Users? @relation("UserToAccount")
+  usersId String @db.ObjectId @unique
+  users Users @relation("UserToAccount",fields: [usersId],references: [id],onDelete:Cascade)
   debitedAccountId Transactions[] @relation("debitedAccountId")
   creditedAccountId Transactions[] @relation("creditedAccountId")
+  
 }
 
 model Transactions {
